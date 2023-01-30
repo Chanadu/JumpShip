@@ -62,7 +62,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Alien" type="Area2D"]
+[node name="Alien" type="Area2D" groups=["Alien"]]
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -77,25 +77,25 @@ animation = "purple"
 
 [node name="RayCastLeft" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( -8, 0 )
+cast_to = Vector2( -7.999, 0 )
 collide_with_areas = true
 script = ExtResource( 3 )
 
 [node name="RayCastRight" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( 8, 0 )
+cast_to = Vector2( 7.999, 0 )
 collide_with_areas = true
 script = ExtResource( 3 )
 
 [node name="RayCastUp" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( 0, -8 )
+cast_to = Vector2( 0, -7.999 )
 collide_with_areas = true
 script = ExtResource( 3 )
 
 [node name="RayCastDown" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( 0, 8 )
+cast_to = Vector2( 0, 7.999 )
 collide_with_areas = true
 script = ExtResource( 3 )
 
