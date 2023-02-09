@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-signal mouse_moved;
+signal moved;
 
 
 func _physics_process(delta) -> void:
@@ -9,4 +9,4 @@ func _physics_process(delta) -> void:
 	# I have no idea how this works
 	var _collisions := move_and_slide((get_global_mouse_position() - position) / delta);
 	if (pos != position):
-		emit_signal("mouse_moved", position);
+		emit_signal("moved", position);

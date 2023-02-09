@@ -14,6 +14,10 @@ config/name="JumpShip"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+TileManager="*res://Scripts/TileManager.gd"
+
 [display]
 
 window/size/width=320
