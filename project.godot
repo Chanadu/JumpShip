@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 TileManager="*res://Scripts/TileManager.gd"
+Consts="*res://Scripts/Constants.gd"
 
 [display]
 

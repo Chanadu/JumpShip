@@ -1,27 +1,16 @@
 extends Area2D
 
-onready var tileManager := get_node("/root/TileManager");
-export var tileSize := 16;
-
-export var lerpFactor := .3
+export var lerpFactor := .3;
 
 var isMouseOver := false;
 var isDragging := false;
 var inMouseExitTimer := false;
 
-var colliding := [false, false, false, false];
-
 var mouse_position := Vector2(0, 0);
 
-enum collision {
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN
-};
 
 func _ready() -> void:
-	tileManager.object_moved(position.x, position.y, name);
+	TileManager.object_moved(position.x, position.y, name);
 
 
 func _physics_process(_delta : float) -> void:
@@ -34,11 +23,12 @@ func process_inputs() -> void:
 	if isDragging:
 		if Input.is_action_pressed("click"):
 			move_with_mouse();
+			TileManager.object_removed(name)
 		if Input.is_action_just_released("click"):
 			isDragging = false;
 			snap_to_grid(mouse_position);
-			tileManager.object_moved(position.x, position.y, name);
-			print(tileManager.to_string());
+			TileManager.object_moved(position.x, position.y, name);
+			#print(TileManager.to_string());
 
 
 func move_with_mouse() -> void:
@@ -46,28 +36,33 @@ func move_with_mouse() -> void:
 
 
 func snap_to_grid(location : Vector2) -> void:
-	var x := location.x;
-	var y := location.y;
-# warning-ignore:integer_division
-	x = floor(x / tileSize) * tileSize + floor((tileSize / 2));
-# warning-ignore:integer_division
-	y = floor(y / tileSize) * tileSize + floor((tileSize / 2));
-	if colliding[collision.LEFT] or colliding[collision.RIGHT] or colliding[collision.UP] or colliding[collision.DOWN]:
-		var locationX := int(location.x)  % tileSize;
-		var locationY := int(location.y) % tileSize;
-		#print(str(locationX) + "  " + str(locationY));
+	var x := floor(location.x / Consts.TILE_SIZE) * Consts.TILE_SIZE + Consts.HALF_TILE;
+	var y := floor(location.y / Consts.TILE_SIZE) * Consts.TILE_SIZE + Consts.HALF_TILE;
+	
+	if TileManager.is_tile_taken(x, y):
+		var mouseX := int(location.x) % Consts.TILE_SIZE;
+		var mouseY := int(location.y) % Consts.TILE_SIZE;
 		
-		if locationX <= 7 and not colliding[collision.LEFT]:
-			x -= tileSize;
-		elif not colliding[collision.RIGHT]:
-			x += tileSize;
-		elif locationY < 7 and not colliding[collision.UP]:
-			y -= tileSize;
-		elif not colliding[collision.DOWN]:
-			y += tileSize;
+		if mouseX <= 7 and !TileManager.is_tile_taken(x - 16, y):
+			x -= 16;
+		elif mouseX >= 8 and !TileManager.is_tile_taken(x + 16, y):
+			x += 16;
+		elif mouseY <= 7 and !TileManager.is_tile_taken(x, y - 16):
+			y -= 16;
+		elif mouseY >= 8 and !TileManager.is_tile_taken(x, y + 16):
+			y += 16;
+		elif !TileManager.is_tile_taken(x - 16, y):
+			x -= 16;
+		elif !TileManager.is_tile_taken(x + 16, y):
+			x += 16;
+		elif !TileManager.is_tile_taken(x, y - 16):
+			y -= 16;
+		elif !TileManager.is_tile_taken(x, y + 16):
+			y += 16;
 		else:
-			printerr("Line 65 Alien.gd unhandled case because I thought this should never run anyway.");
-			print("MX: ", locationX, "MY: ", locationY, "Left: ", colliding[collision.LEFT], "Right: ", colliding[collision.RIGHT], "UP: ", colliding[collision.UP], "Down: ", colliding[collision.DOWN]);
+			print("Wow that is wild. Line 66 Alien.gd unhanded case.");
+			print("MouseX: ", mouseX, " MouseY: ", mouseY, " Left: ", TileManager.is_tile_taken(x - 16, y), " Right: ", TileManager.is_tile_taken(x + 16, y), " Up: ", TileManager.is_tile_taken(x, y + 16), " Down: ", TileManager.is_tile_taken(x, y - 16));
+		
 	position = Vector2(x, y);
 
 
