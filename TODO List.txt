@@ -1,0 +1,17 @@
+TODO List for Game
+
+- Add alien types
+	- Floating things above it
+	- Different abilities
+- Different Tiles
+	- Laser Tiles
+		- Lasers
+			- Lasers Kill Enemies
+	- Door Tiles
+	- Magic Tiles
+	- Immoveable Tiles
+	- Locked Tiles
+- Moveable Camera
+	- Moves with all Aliens
+	- Moves in different Rooms
+- Level Design

@@ -12,7 +12,6 @@ config_version=4
 
 config/name="JumpShip"
 run/main_scene="res://Scenes/Main.tscn"
-config/icon="res://icon.png"
 
 [autoload]
 
@@ -56,4 +55,3 @@ vram_compression/import_etc2=false
 2d/options/ninepatch_mode=0
 gles2/compatibility/disable_half_float=true
 gles2/compatibility/enable_high_float.Android=true
-environment/default_environment="res://default_env.tres"
