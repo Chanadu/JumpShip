@@ -24,12 +24,15 @@ position = Vector2( 232, 120 )
 
 [node name="Alien4" parent="." instance=ExtResource( 1 )]
 position = Vector2( 168, 136 )
+alienType = 1
 
 [node name="Alien3" parent="." instance=ExtResource( 1 )]
 position = Vector2( 264, 104 )
+alienType = 2
 
 [node name="Alien2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 152, 56 )
+alienType = 3
 
 [node name="Alien" parent="." instance=ExtResource( 1 )]
 position = Vector2( 200, 88 )
@@ -37,8 +40,8 @@ position = Vector2( 200, 88 )
 [node name="Mouse" parent="." instance=ExtResource( 4 )]
 position = Vector2( 168, 88 )
 
+[connection signal="moved" from="Mouse" to="Alien5" method="_on_Mouse_moved"]
+[connection signal="moved" from="Mouse" to="Alien4" method="_on_Mouse_moved"]
+[connection signal="moved" from="Mouse" to="Alien3" method="_on_Mouse_moved"]
 [connection signal="moved" from="Mouse" to="Alien2" method="_on_Mouse_moved"]
 [connection signal="moved" from="Mouse" to="Alien" method="_on_Mouse_moved"]
-[connection signal="moved" from="Mouse" to="Alien3" method="_on_Mouse_moved"]
-[connection signal="moved" from="Mouse" to="Alien4" method="_on_Mouse_moved"]
-[connection signal="moved" from="Mouse" to="Alien5" method="_on_Mouse_moved"]

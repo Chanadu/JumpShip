@@ -43,22 +43,22 @@ animations = [ {
 "frames": [ SubResource( 5 ), SubResource( 6 ) ],
 "loop": true,
 "name": "blue",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [ SubResource( 2 ), SubResource( 3 ) ],
 "loop": true,
 "name": "green",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "purple",
-"speed": 5.0
+"speed": 0.0
 }, {
 "frames": [ SubResource( 9 ), SubResource( 10 ) ],
 "loop": true,
 "name": "red",
-"speed": 5.0
+"speed": 0.0
 } ]
 
 [node name="Alien" type="Area2D" groups=["Alien"]]

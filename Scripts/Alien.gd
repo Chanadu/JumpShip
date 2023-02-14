@@ -1,16 +1,33 @@
 extends Area2D
 
+enum AlienTypes {
+	Blue,
+	Red,
+	Purple,
+	Green
+};
+
+var alienTypesToString := {
+	AlienTypes.Blue: "blue",
+	AlienTypes.Red: "red",
+	AlienTypes.Purple: "purple",
+	AlienTypes.Green: "green"
+};
+
+export(AlienTypes) var alienType = AlienTypes.Blue;
 export var lerpFactor := .3;
 
 var isMouseOver := false;
 var isDragging := false;
 var inMouseExitTimer := false;
 
-var mouse_position := Vector2(0, 0);
+var mousePosition : Vector2;
+var originalPosition : Vector2;
 
 
 func _ready() -> void:
 	TileManager.object_moved(position.x, position.y, name);
+	$Sprite.play(alienTypesToString[alienType])
 
 
 func _physics_process(_delta : float) -> void:
@@ -20,22 +37,24 @@ func _physics_process(_delta : float) -> void:
 func process_inputs() -> void:
 	if isMouseOver and Input.is_action_just_pressed("click"):
 		isDragging = true;
+		originalPosition = position;
 	if isDragging:
 		if Input.is_action_pressed("click"):
 			move_with_mouse();
 			TileManager.object_removed(name)
 		if Input.is_action_just_released("click"):
 			isDragging = false;
-			snap_to_grid(mouse_position);
+			if snap_to_grid(mousePosition):
+				#print(position, originalPosition);
+				position = originalPosition;
 			TileManager.object_moved(position.x, position.y, name);
-			#print(TileManager.to_string());
 
 
 func move_with_mouse() -> void:
-	position = lerp(position, mouse_position, lerpFactor);
+	position = lerp(position, mousePosition, lerpFactor);
 
 
-func snap_to_grid(location : Vector2) -> void:
+func snap_to_grid(location : Vector2) -> bool:
 	var x := floor(location.x / Consts.TILE_SIZE) * Consts.TILE_SIZE + Consts.HALF_TILE;
 	var y := floor(location.y / Consts.TILE_SIZE) * Consts.TILE_SIZE + Consts.HALF_TILE;
 	
@@ -60,10 +79,10 @@ func snap_to_grid(location : Vector2) -> void:
 		elif !TileManager.is_tile_taken(x, y + 16):
 			y += 16;
 		else:
-			print("Wow that is wild. Line 66 Alien.gd unhanded case.");
-			print("MouseX: ", mouseX, " MouseY: ", mouseY, " Left: ", TileManager.is_tile_taken(x - 16, y), " Right: ", TileManager.is_tile_taken(x + 16, y), " Up: ", TileManager.is_tile_taken(x, y + 16), " Down: ", TileManager.is_tile_taken(x, y - 16));
-		
+			return true;
+			#print("MouseX: ", mouseX, " MouseY: ", mouseY, " Left: ", TileManager.is_tile_taken(x - 16, y), " Right: ", TileManager.is_tile_taken(x + 16, y), " Up: ", TileManager.is_tile_taken(x, y + 16), " Down: ", TileManager.is_tile_taken(x, y - 16));
 	position = Vector2(x, y);
+	return false;
 
 
 func _on_Alien_mouse_entered() -> void:
@@ -81,4 +100,4 @@ func _on_Alien_mouse_exited() -> void:
 
 
 func _on_Mouse_moved(pos : Vector2) -> void:
-	mouse_position = pos;
+	mousePosition = pos;
